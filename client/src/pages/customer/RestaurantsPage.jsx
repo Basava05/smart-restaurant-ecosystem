@@ -30,11 +30,16 @@ export default function RestaurantsPage() {
   // Filter restaurants
   const filtered = useMemo(() => {
     return BANGALORE_RESTAURANTS.filter((rest) => {
+      const searchLower = search.toLowerCase();
       const matchesSearch =
         !search ||
-        rest.name.toLowerCase().includes(search.toLowerCase()) ||
-        rest.cuisine.some((c) => c.toLowerCase().includes(search.toLowerCase())) ||
-        rest.address.toLowerCase().includes(search.toLowerCase());
+        rest.name.toLowerCase().includes(searchLower) ||
+        rest.cuisine.some((c) => c.toLowerCase().includes(searchLower)) ||
+        rest.address.toLowerCase().includes(searchLower) ||
+        (rest.menu && rest.menu.some((item) => 
+          item.name.toLowerCase().includes(searchLower) ||
+          item.description.toLowerCase().includes(searchLower)
+        ));
 
       const matchesCuisine =
         !selectedCuisine ||
