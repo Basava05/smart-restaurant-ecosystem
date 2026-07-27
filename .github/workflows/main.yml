@@ -25,4 +25,4 @@ jobs:
       run: cd client && npm run build
       
     - name: Install Server Dependencies
-      run: cd server && npm ci
+      run: cd server && npm install --legacy-peer-deps
