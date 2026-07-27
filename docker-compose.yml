@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:6
+    container_name: sre-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - sre_mongo_data:/data/db
+
+  server:
+    build: ./server
+    container_name: sre-server
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/sre
+      - JWT_SECRET=your_super_secret_jwt_key
+      - CLIENT_URL=http://localhost
+    depends_on:
+      - mongo
+
+  client:
+    build: ./client
+    container_name: sre-client
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+
+volumes:
+  sre_mongo_data:
