@@ -2,7 +2,7 @@
 
 ## Overview
 
-Build the complete Smart Restaurant Ecosystem (SRE) end-to-end: a MERN-stack application with real-time kitchen scheduling, live Estimated Time of Arrival (ETA) tracking, weather-aware menu recommendations, and Razorpay payment integration. All 16 phases will be built in order per the build manual.
+Build the complete Smart Restaurant Ecosystem (SRE) end-to-end: a MERN-stack application with real-time kitchen scheduling, live Estimated Time of Arrival (ETA) tracking, weather-aware menu recommendations, and Razorpay payment integration. All phases will be built in order per the build manual.
 
 > [!IMPORTANT]
 > **Key constraints from the manual:**
