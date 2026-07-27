@@ -34,7 +34,7 @@ router.post('/chat', async (req, res) => {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-flash-latest', systemInstruction: SYSTEM_PROMPT });
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite', systemInstruction: SYSTEM_PROMPT });
 
     // Format history for Gemini
     // Gemini expects history in format: { role: 'user' | 'model', parts: [{ text: string }] }
@@ -61,6 +61,23 @@ router.post('/chat', async (req, res) => {
     res.json({ success: true, response: responseText });
   } catch (error) {
     console.error('Bot Error:', error);
+    
+    // Check for rate limit / quota exceeded error
+    if (error.status === 429 || (error.message && error.message.includes('429'))) {
+      return res.status(429).json({ 
+        success: false, 
+        message: 'Sorry, my daily usage limit has been exceeded. Please try again tomorrow!' 
+      });
+    }
+    
+    // Check for 503 model overloaded error
+    if (error.status === 503 || (error.message && error.message.includes('503'))) {
+      return res.status(503).json({
+        success: false,
+        message: 'The AI model is currently experiencing high demand. Please try again in a few moments.'
+      });
+    }
+
     res.status(500).json({ success: false, message: 'Failed to communicate with AI.' });
   }
 });

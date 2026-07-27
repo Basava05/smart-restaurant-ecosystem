@@ -54,7 +54,8 @@ export default function BotWidget() {
       }
     } catch (error) {
       console.error('Chat error:', error);
-      setMessages([...currentHistory, { role: 'model', content: 'Sorry, I am currently unavailable.' }]);
+      const errorMessage = error.response?.data?.message || 'Sorry, I am currently unavailable.';
+      setMessages([...currentHistory, { role: 'model', content: errorMessage }]);
     } finally {
       setIsTyping(false);
     }
